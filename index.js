@@ -14,7 +14,7 @@ let chat;
 app.listen(port, async () => {
   console.log(`Server is running on port ${port}`);
   model = genAI.getGenerativeModel({
-    model: "gemini-1.5-flash",
+    model: "gemini-2.0-flash", // "gemini-2.5-pro-preview-03-25" or any latest model
     systemInstruction: "You are an expert news reporter who curates content and provides a brief to the point response in Australian slang. You do not give long paragraphs but just some bullet points with the summary.",
     tools: [{
       googleSearchRetrieval: {
@@ -24,6 +24,9 @@ app.listen(port, async () => {
         }
       }
     }],
+    tools: [
+      {"google_search": {}}
+    ]
   });
   
 });
@@ -34,7 +37,7 @@ app.get("/", (req, res) => {
 
 app.get("/news", async (req, res) => {
   chat = await model.startChat();
-  const prompt = "latest tech news in last 24 hours"
+  const prompt = "latest tech news in last 24 hours";
   const result = await chat.sendMessage(prompt);
   res.send(result.response.text());
 })
