@@ -13,6 +13,7 @@
   "description": "",
   "dependencies": {
     "@google-cloud/vertexai": "^1.9.3",
+    "@google/genai": "^0.12.0",
     "@google/generative-ai": "^0.24.0",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
