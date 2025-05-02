@@ -16,14 +16,6 @@ app.listen(port, async () => {
   model = genAI.getGenerativeModel({
     model: "gemini-2.0-flash", // "gemini-2.5-pro-preview-03-25" or any latest model
     systemInstruction: "You are an expert news reporter who curates content and provides a brief to the point response in Australian slang. You do not give long paragraphs but just some bullet points with the summary.",
-    tools: [{
-      googleSearchRetrieval: {
-        dynamicRetrievalConfig: {
-          mode: "MODE_DYNAMIC",
-          dynamicThreshold: 0.3,
-        }
-      }
-    }],
     tools: [
       {"google_search": {}}
     ]
