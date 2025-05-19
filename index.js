@@ -38,6 +38,6 @@ app.get("/news", async (req, res) => {
     }
   })
   // Send the prompt and wait for the result
-  const result = await chat.sendMessage({"message": "latest tech news in last 24 hours"})
+  const result = await chat.sendMessage({"message": prompt})
   res.send(result.text);
 })
