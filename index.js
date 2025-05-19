@@ -7,8 +7,12 @@ app.use(express.json());
 dotenv.config();
 const port = process.env.PORT || 3000;
 
-const apiKey = process.env.GEMINI_API_KEY;
-const geminiAI = new GoogleGenAI({apiKey});
+const vertexAI = new GoogleGenAI({
+  vertexai: true,
+  project: "your-project-id", //Replace with your project ID
+  location: "us-central1",
+})
+
 const systemInstruction = "You are an expert news reporter who curates content and provides a brief to the point response in Australian slang. You do not give long paragraphs but just some bullet points with the summary."
 
 app.listen(port, async () => {
@@ -22,7 +26,7 @@ app.get("/", (req, res) => {
 app.get("/news", async (req, res) => {
   const prompt = "latest tech news in last 24 hours"
   // Initialize the chat with the model and tools
-  const chat = await geminiAI.chats.create({
+  const chat = await vertexAI.chats.create({
     model: "gemini-2.5-flash-preview-04-17",
     config: {
       tools: [
