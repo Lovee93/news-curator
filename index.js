@@ -14,6 +14,8 @@ const vertexAI = new GoogleGenAI({
   location: "us-central1",
 })
 
+const systemInstruction = "You are an expert news reporter who curates content and provides a brief to the point response in Australian slang. You do not give long paragraphs but just some bullet points with the summary."
+
 app.listen(port, async () => {
   console.log(`Server is running on port ${port}`);  
 });
@@ -22,7 +24,7 @@ app.get("/", (req, res) => {
   res.send("Hello World");
 });
 
-app.get("/news-gemini", async (req, res) => {
+app.get("/news", async (req, res) => {
   const prompt = "latest tech news in last 24 hours"
   const chat = await geminiAI.chats.create({
     model: "gemini-2.5-flash-preview-04-17",
@@ -31,10 +33,11 @@ app.get("/news-gemini", async (req, res) => {
         {
           googleSearch: {}
         }
-      ]
+      ],
+      systemInstruction
     }
   })
-  const result = await chat.sendMessage({"message": "who is the president of the USA?"}) // use prompt as the message, this is for testing
+  const result = await chat.sendMessage({"message": "latest tech news in last 24 hours"})
   res.send(result.text);
 })
 
@@ -47,9 +50,10 @@ app.get("/news-vertex", async (req, res) => {
         {
           googleSearch: {}
         }
-      ]
+      ],
+      systemInstruction
     }
   })
-  const result = await chat.sendMessage({"message": "who is the president of the USA?"}) // use prompt as the message, this is for testing
+  const result = await chat.sendMessage({"message": "latest tech news in last 24 hours"})
   res.send(result.text);
 })
