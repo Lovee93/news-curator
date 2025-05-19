@@ -7,13 +7,8 @@ app.use(express.json());
 dotenv.config();
 const port = process.env.PORT || 3000;
 
-const geminiAI = new GoogleGenAI({apiKey: process.env.GEMINI_API_KEY});
-const vertexAI = new GoogleGenAI({
-  vertexai: true,
-  project: "your-project-id",
-  location: "us-central1",
-})
-
+const apiKey = process.env.GEMINI_API_KEY;
+const geminiAI = new GoogleGenAI({apiKey});
 const systemInstruction = "You are an expert news reporter who curates content and provides a brief to the point response in Australian slang. You do not give long paragraphs but just some bullet points with the summary."
 
 app.listen(port, async () => {
@@ -26,6 +21,7 @@ app.get("/", (req, res) => {
 
 app.get("/news", async (req, res) => {
   const prompt = "latest tech news in last 24 hours"
+  // Initialize the chat with the model and tools
   const chat = await geminiAI.chats.create({
     model: "gemini-2.5-flash-preview-04-17",
     config: {
@@ -37,23 +33,7 @@ app.get("/news", async (req, res) => {
       systemInstruction
     }
   })
-  const result = await chat.sendMessage({"message": "latest tech news in last 24 hours"})
-  res.send(result.text);
-})
-
-app.get("/news-vertex", async (req, res) => {
-  const prompt = "latest tech news in last 24 hours"
-  const chat = await vertexAI.chats.create({
-    model: "gemini-2.5-flash-preview-04-17",
-    config: {
-      tools: [
-        {
-          googleSearch: {}
-        }
-      ],
-      systemInstruction
-    }
-  })
+  // Send the prompt and wait for the result
   const result = await chat.sendMessage({"message": "latest tech news in last 24 hours"})
   res.send(result.text);
 })
