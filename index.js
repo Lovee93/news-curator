@@ -23,7 +23,7 @@ app.get("/news", async (req, res) => {
   const prompt = "latest tech news in last 24 hours"
   // Initialize the chat with the model and tools
   const chat = await geminiAI.chats.create({
-    model: "gemini-2.5-flash-preview-04-17",
+    model: "gemini-2.5-flash",
     config: {
       tools: [
         {
